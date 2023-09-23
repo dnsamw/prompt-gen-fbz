@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Article Prompt Gen</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="area">
+        <div class="article-title">
+          <label for="main-keyword">Main keyword:</label>
+          <input
+            type="text"
+            id="main-keyword"
+            placeholder="Main keyword goes here.."
+          />
+          <label for="target-crowd">Target crowd:</label>
+          <select id="target-crowd">
+            <option value="wanderlust">Wanderlusts</option>
+            <option value="travel enthusiasts">Travel enthusiasts</option>
+          </select>
+
+          <label for="quantity">Word count:</label>
+          <input
+            type="number"
+            id="word-count"
+            name="quantity"
+            min="500"
+            value="1000"
+          />
+          <textarea
+            id="article-title"
+            cols="30"
+            rows="5"
+            placeholder="Enter the article title here.."
+          ></textarea>
+        </div>
+        <div class="btn">
+          <input type="button" id="prompt-gen" value="Generate Prompts" />
+        </div>
+      </div>
+      <div class="area" id="prompt-area">
+        <!-- <div class="prompt">
+          <div class="prompt-title">Step 1</div>
+          <div class="prompt-text">
+            <textarea
+              id="prompt-id"
+              cols="30"
+              rows="5"
+              placeholder="Prompt text goes here.."
+            ></textarea>
+            <svg
+              class="copy-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"
+              />
+            </svg>
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <script>
+      function createPrompt(promptText, promptNumber) {
+        // Create the outer div with class="prompt"
+        const promptDiv = document.createElement("div");
+        promptDiv.className = "prompt";
+
+        // Create the div with class="prompt-title" and text content "Step 1"
+        const titleDiv = document.createElement("div");
+        titleDiv.className = "prompt-title";
+        titleDiv.textContent = `Step - ${promptNumber}`;
+
+        // Create the div with class="prompt-text"
+        const textDiv = document.createElement("div");
+        textDiv.className = "prompt-text";
+
+        // Create the textarea element with the specified attributes
+        const textareaElement = document.createElement("textarea");
+        textareaElement.id = `prompt-${promptNumber}`;
+        textareaElement.className = "prompt-textarea";
+        textareaElement.cols = "30";
+        textareaElement.rows = "5";
+        // textareaElement.placeholder = "Prompt text goes here..";
+        textareaElement.value = promptText;
+
+        // Create the SVG element for the copy icon with the specified attributes
+        const svgElement = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "svg"
+        );
+        svgElement.setAttribute("class", "copy-icon");
+        svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+        svgElement.setAttribute("fill", "none");
+        svgElement.setAttribute("viewBox", "0 0 24 24");
+        svgElement.setAttribute("stroke-width", "1.5");
+        svgElement.setAttribute("stroke", "currentColor");
+        svgElement.classList.add("w-6", "h-6");
+
+        // Create the path element within the SVG
+        const pathElement = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "path"
+        );
+        pathElement.setAttribute("stroke-linecap", "round");
+        pathElement.setAttribute("stroke-linejoin", "round");
+        pathElement.setAttribute(
+          "d",
+          "M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"
+        );
+
+        // Append the created elements to build the desired structure
+        svgElement.appendChild(pathElement);
+        textDiv.appendChild(textareaElement);
+        textDiv.appendChild(svgElement);
+        promptDiv.appendChild(titleDiv);
+        promptDiv.appendChild(textDiv);
+
+        svgElement.addEventListener("click", function () {
+          let textToCopy = this.parentNode.querySelector("textarea").value;
+          //   console.log(textToCopy);
+          navigator.clipboard
+            .writeText(textToCopy)
+            .then(() => {
+              console.log("Text copied to clipboard");
+            })
+            .catch((err) => {
+              console.error("Could not copy text to clipboard: " + err);
+            });
+        });
+
+        return promptDiv;
+      }
+
+      const articleTitle = document.getElementById("article-title");
+      const wordCount = document.getElementById("word-count");
+      const targetCrowd = document.getElementById("target-crowd");
+      const mainKeyword = document.getElementById("main-keyword");
+
+      function generatePrompts(
+        articleTitle,
+        wordCount,
+        targetCrowd,
+        mainKeyword
+      ) {
+        const prompt1 = `give me an outline with title tags (eg: h1, h2, h3, etc....) and word counts for creating an article on the following topic “${articleTitle}”.  need to add a minimum of "${wordCount}" words and a more human writing approach. The target audience is "${targetCrowd}". Answer the most commonly asked questions about the topic at the end of the article. Need to Outrank a competitor article and be Google ranked number #1. The main Keyword is “${mainKeyword}”. Make sure to include all the necessary NLP entities and LSI keywords in appropriate places. H3 and H4 titles should be used only where necessary to facilitate the flow and readability of the article.`;
+
+        const prompt2 = `Act like a professional copywriter. I'm going to show you some copy l've written, and your goal is to imitate it. You'll start by just saying "START". Then l'Il show you an example text and you'll just say "NEXT". Then another example and you'll just say "NEXT" and so on. I'll give you lots of examples, more than two. You'll never stop saying "NEXT". You can only say something else when I say "DONE", not before. Then you'll analyze my writing style, tone and style of the sample texts l've given you. Finally, I'Il ask you to write a new text on a given subject using exactly my writing style.`;
+
+        const optionalPrompt = `i'm not done yet, please keep  learning and saying "NEXT",until i'm done feeding the article and say "DONE" `;
+
+        const prompt3 = `Now I need "Out line Title here" (400 words) "Outline Description that's provides by GPT" The end needs to be well connected with the next title “(H2) Your Next Title” But don't write the next title, just for your info. Don't say "stay tuned" or a similar word to connect to the next section just use "let's move on" or a similar word because I will add the next section below this part. So all sections will be one article.`;
+
+        return [prompt1, prompt2, optionalPrompt, prompt3];
+      }
+
+      articleTitle.addEventListener("input", function (e) {
+        const promptId = document.getElementById("prompt-id");
+        const promptContaner = document.getElementById("prompt-area");
+        promptContaner.innerHTML = "";
+
+        const promptArray = generatePrompts(
+          e.target.value,
+          wordCount.value,
+          targetCrowd.value,
+          mainKeyword.value
+        );
+
+        for (const [index, promptText] of promptArray.entries()) {
+          promptElement = createPrompt(promptText, index + 1);
+          promptContaner.appendChild(promptElement);
+        }
+      });
+
+      mainKeyword.addEventListener("input", function (e) {
+        console.log(e.target.value);
+        articleTitle.value === ""
+          ? (articleTitle.style.outline = "1px solid red")
+          : (articleTitle.style.outline = "1px solid green");
+      });
+
+      targetCrowd.addEventListener("change", function (e) {
+        console.log(e.target.value);
+      });
+
+      wordCount.addEventListener("input", function (e) {
+        console.log(e.target.value);
+      });
+    </script>
+  </body>
+</html>
